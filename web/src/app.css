@@ -47,3 +47,15 @@ footer{margin-top:48px;text-align:center;font-size:11px;letter-spacing:.2em;text
 .summary{margin:0 0 20px;line-height:1.6}
 .flagged{margin:0 0 20px;padding:14px;background:#0d0d0f;border:1px solid var(--line);border-radius:4px;line-height:1.7;word-break:break-word;color:var(--mute)}
 mark{background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--text);border-bottom:2px solid var(--c);padding:0 2px;border-radius:2px}
+.tabs{display:flex;gap:6px;max-width:540px;margin:0 auto;padding:0 24px}
+.tabs button{flex:1;padding:12px;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--mute);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+.tabs button.on{color:var(--gold);border-bottom-color:var(--gold)}
+.quiz{margin-top:28px}
+.qtext{font-family:ui-serif,Georgia,serif;font-size:22px;line-height:1.5;margin:8px 0 22px}
+.qbtns{display:flex;gap:10px}
+.qbtns .ghost{margin:0}
+.reveal{margin-top:18px;padding:16px;border-radius:4px;border:1px solid var(--line);line-height:1.6}
+.reveal.right{border-color:var(--lo)}.reveal.wrong{border-color:var(--hi)}
+.reveal .cta{margin-top:14px}
+.result .cta{margin-top:12px}
+.result .ghost{margin-top:10px}

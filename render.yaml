@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: scamcheck-api
+    runtime: node
+    rootDir: api
+    buildCommand: npm install
+    startCommand: node index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: GSB_KEY
+        sync: false
+      - key: ALLOWED_ORIGIN
+        sync: false
+      - key: WA_VERIFY_TOKEN
+        sync: false
+      - key: WA_TOKEN
+        sync: false
+      - key: WA_PHONE_ID
+        sync: false
+      - key: WA_APP_SECRET
+        sync: false
