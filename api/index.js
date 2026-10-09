@@ -80,12 +80,13 @@ async function reportedBefore(text,domains){
  }catch{return 0}
 }
 
+const SUMMARY={High:'Several strong scam signs were found. Do not send money, codes, or personal details.',Medium:'Some warning signs were found. Verify through an official channel before you act.',Low:'No known scam signs were found in this check. That does not guarantee safety.'};
 app.post('/api/check',async(req,res)=>{
  const p=checkSchema.safeParse(req.body);
  if(!p.success)return res.status(400).json({error:'Invalid input'});
  const text=p.data.input;
  let score=0;const reasons=[];
- for(const[r,w,t]of rules)if(r.test(text)){score+=w;reasons.push(t)}
+ const matches=[];for(const[r,w,t]of rules){const m=r.exec(text);if(m){score+=w;reasons.push(t);matches.push({text:m[0],reason:t})}}
  const domains=getDomains(text);
  const [ages,flagged,known]=await Promise.all([
   Promise.all(domains.map(domainAgeDays)),
@@ -94,14 +95,14 @@ app.post('/api/check',async(req,res)=>{
  ]);
  ages.forEach((a,i)=>{
   if(a===null)return;
-  if(a<30){score+=25;reasons.push(domains[i]+' was registered '+a+' days ago')}
-  else if(a<180){score+=10;reasons.push(domains[i]+' is under 6 months old')}
+  if(a<30){score+=25;reasons.push(domains[i]+' was registered '+a+' days ago');matches.push({text:domains[i],reason:'Newly registered domain'})}
+  else if(a<180){score+=10;reasons.push(domains[i]+' is under 6 months old');matches.push({text:domains[i],reason:'Young domain'})}
  });
  if(flagged){score+=60;reasons.push('Link flagged by Google Safe Browsing')}
  if(known>0){score+=40;reasons.push('Reported as a scam by other users')}
  score=Math.min(score,100);
  const risk=score>=50?'High':score>=20?'Medium':'Low';
- res.json({risk,score,reasons,note:'Low risk does not mean safe.'});
+ res.json({risk,score,reasons,matches,summary:SUMMARY[risk],note:'Low risk does not mean safe.'});
  getDb().then(d=>d&&d.collection('checks').insertOne({
   input_hash:crypto.createHash('sha256').update(text).digest('hex'),
   risk,score,reasons,created_at:new Date()
