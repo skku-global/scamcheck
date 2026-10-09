@@ -33,3 +33,4 @@ button{font-family:inherit;cursor:pointer}
 .dot{width:10px;height:10px;border-radius:50%;background:#888}
 .dot.high{background:#e5484d}.dot.medium{background:#f5a524}.dot.low{background:#30a46c}
 footer{margin-top:24px;color:#667;font-size:12px;text-align:center}
+.card small{display:block;margin-top:6px}

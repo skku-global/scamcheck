@@ -15,6 +15,8 @@ async function getDb(){
 }
 
 const rules=[
+ [/(send|share|give|provide|enter|confirm).{0,25}(otp|pin|password|bvn|card number|cvv)/i,40,'Asks you to share a code or secret'],
+ [/(blocked|suspended|deactivated|restricted|locked|expired).{0,40}(account|bvn|card|sim|wallet)|(account|bvn|card|sim|wallet).{0,40}(blocked|suspended|deactivated|restricted|locked|expired)/i,25,'Account threat'],
  [/(send|pay|invest)\s*[\d,]+.{0,30}(get|receive|earn).{0,30}(times|double|triple|x\d|\d{5,})/i,35,'Send small, get big returns pattern'],
  [/guaranteed|double your money|100%\s*profit/i,25,'Promises guaranteed returns'],
  [/within\s*\d+\s*(hours|hrs|minutes)|24\s*hours/i,15,'Unrealistic timeframe'],
