@@ -6,7 +6,8 @@ const crypto=require('crypto');
 const app=express();
 app.set('trust proxy',1);
 app.use(helmet());
-app.use(cors({origin:process.env.ALLOWED_ORIGIN||true}));
+const ORIGINS=(process.env.ALLOWED_ORIGIN||'').split(',').map(x=>x.replace(/[\s"']/g,'').replace(/\/+$/,'')).filter(Boolean);
+app.use(cors({origin:(o,cb)=>cb(null,!o||!ORIGINS.length||ORIGINS.includes(o))}));
 app.use(express.json({limit:'100kb',verify:(req,_r,buf)=>{req.rawBody=buf}}));
 const checkLimit=rateLimit({windowMs:60000,max:30});
 const reportLimit=rateLimit({windowMs:60000,max:5});
@@ -250,4 +251,5 @@ app.post('/api/whatsapp',async(req,res)=>{
  }catch{}
 });
 
+app.use((e,_q,r,_n)=>r.status(500).json({error:'Server error'}));
 app.listen(process.env.PORT||4000,()=>console.log('API up'));
