@@ -15,6 +15,7 @@ async function getDb(){
 }
 
 const rules=[
+ [/(send|pay|invest)\s*[\d,]+.{0,30}(get|receive|earn).{0,30}(times|double|triple|x\d|\d{5,})/i,35,'Send small, get big returns pattern'],
  [/guaranteed|double your money|100%\s*profit/i,25,'Promises guaranteed returns'],
  [/within\s*\d+\s*(hours|hrs|minutes)|24\s*hours/i,15,'Unrealistic timeframe'],
  [/send first|pay first|registration fee|activation fee/i,25,'Asks for payment first'],
