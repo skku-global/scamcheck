@@ -1,3 +1,4 @@
+require('dns').setServers(['8.8.8.8','1.1.1.1']);
 require('dotenv').config();
 const express=require('express'),helmet=require('helmet'),cors=require('cors'),rateLimit=require('express-rate-limit'),{z}=require('zod');
 const {MongoClient}=require('mongodb');
